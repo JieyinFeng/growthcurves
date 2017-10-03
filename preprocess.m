@@ -15,7 +15,7 @@
 lmb_data = readtable('data\lmb_data.xlsx');
 sub_map = mapparse('data\lmb_config.xlsx'); %mapparse initialized container map object
 %% condense data table to necessary information
-int_group = sub_map('int_include'); % intervention group
+int_group = sub_map('summer17'); % intervention group
 cntrl_group = sub_map('cntrl_dx'); % dx control group
 indx = ismember(lmb_data.record_id, int_group);
 cntrl_indx = ismember(lmb_data.record_id,cntrl_group);
@@ -33,6 +33,17 @@ cntrl_data{37, 3} = 13; % this subject is excluded from intervention group with 
 cntrl_sess_name_indx = ismember(cntrl_data.study_name, cntrl_sess_names);
 cntrl_data = cntrl_data(cntrl_sess_name_indx, :);
 % revise int data
+% HA072(197_BK) for int data should have different baseline session:
+% find 197_BK
+temp = find(ismember(int_data.record_id, 72));
+select = int_data(temp, :);
+% find first intervention session
+temp2 = find(ismember(select.study_name, 1));
+location = (temp(temp2) - 1);
+int_data{location,3} = 0; int_data{location,9} = 0; int_data{location,10} = 0;
+temp3 = find(ismember(select.study_name, 0)); location2 = temp(temp3); 
+int_data(location2,:) = [];
+% narrow down to sessions of interest
 int_sess_name_indx = ismember(int_data.study_name,int_sess_names);
 int_data = int_data(int_sess_name_indx, :);
 %% Perform LME model fit
