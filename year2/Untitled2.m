@@ -5,14 +5,34 @@
 % Patrick Donnelly; University of Washington; August 8th, 2017
 
 % load data and filter for summer16 group
-summer_group = sub_map('summer');
-summer_indx = ismember(int_data.record_id, summer_group);
-summer_data = int_data(summer_indx, :);
+% summer_group = sub_map('summer');
+% summer_indx = ismember(int_data.record_id, summer_group);
+% summer_data = int_data(summer_indx, :);
+summer_data = int_data;
+
+
+iq = summer_data.wasi_fs2(summer_data.study_name == 0);
+% three subjects had multiple baselines
+% iq(2) = int_data{6,32}; % fill in missing score
+% iq = iq(isnan(iq) == 0);
+% s = unique(summer_data.record_id);
+% iq = []; 
+% for sub = 1:length(s)
+%     sub_indx = ismember(summer_data.record_id, s(sub));
+%     scores = summer_data.wasi_fs2(sub_indx);
+%     
+%         if isnan(scores(1))
+%             iq(sub) = scores(1)
+%         elseif isnan(scores(2))
+%             iq(sub) = scores(2)
+%         end
+%     
+% end
 
 % Get rid of extra sessions for records 9,35, and 84
-summer_data(7,:) = [];
+summer_data(6,:) = [];
 summer_data(12,:) = [];
-summer_data(77,:) = [];
+summer_data(78,:) = [];
 
 % get rid of irrelevant columns
 summer_data.int_sess_cen = [];
@@ -23,11 +43,16 @@ summer_data.score = [];
 % intial reading score
 brs_init = summer_data.wj_brs(summer_data.int_session == 1);
 % wasi score
-iq = summer_data.wasi_fs2(summer_data.study_name == 0);
-% three subjects had multiple baselines
-iq = iq(isnan(iq) == 0);
 % discrepancy score
 discrep = iq - brs_init;
+
+
+% rapid naming score
+% rapid_init = summer_data.ctopp_rapid(summer_data.study_name == 0);
+% temp = summer_data.ctopp_rapid(summer_data.int_session == 1);
+% temp_loc = isnan(rapid_init);
+% rapid_init(temp_loc) = temp(temp_loc);
+
 
 % compute RTI variable
 % use only the intervention sessions
