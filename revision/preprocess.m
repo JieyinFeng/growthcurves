@@ -9,7 +9,7 @@
 % map object for grouping data by subject groups); center (a function for
 % demeaning variables, for use in the linear mixed effects model; ifsig (a
 % function that codes plotted data based on significance)
-% Patrick Donnelly; University of Washington; August 8th, 2017
+% Patrick Donnelly; University of Washington; November 6th, 2017
 %% Read in files
 % Make sure your present working directory is the growthcurves repo
 lmb_data = readtable('data/lmb_data.xlsx');
@@ -29,7 +29,7 @@ cntrl_sess_names = [0 11 12 13 14]; % based on study name variable coding in red
 int_sess_names = [0 1 2 3 4];
 all_sess_names = [0 1 2 3 4 11 12 13 14];
 % revise cntrl data
-cntrl_data{37, 3} = 13; % this subject is excluded from intervention group with ongoing participation
+% cntrl_data{37, 3} = 13; % this subject is excluded from intervention group with ongoing participation
 cntrl_sess_name_indx = ismember(cntrl_data.study_name, cntrl_sess_names);
 cntrl_data = cntrl_data(cntrl_sess_name_indx, :);
 % revise int data
