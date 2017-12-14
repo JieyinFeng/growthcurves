@@ -2,7 +2,7 @@ function [ y ] = sem( x )
 % Calculates standard error for input array
 %   
 
-y = std(x) / sqrt(size(x,2));
+y = std(x) / sqrt(numel(x));
 
 
 
