@@ -96,28 +96,41 @@ for jj = 1:length(iq)
     end
 end
 % append to summer data table
-summer_data.brs_init = brs_init_col(:,1);
-summer_data.iq = iq_col(:,1);
-summer_data.iq_mr = iq_mr_col(:,1);
-summer_data.iq_vocab = iq_vocab_col(:,1);
-summer_data.discrep = discrep_col(:,1);
-summer_data.rapid = rapid_col(:,1);
-summer_data.elision = elision_col(:,1);
+summer_data.brs_init = brs_init_col(:,1)-mean(brs_init_col(:,1));
+summer_data.iq = iq_col(:,1)-mean(iq_col(:,1));
+summer_data.iq_mr = iq_mr_col(:,1)-mean(iq_mr_col(:,1));
+summer_data.iq_vocab = iq_vocab_col(:,1)-mean(iq_vocab_col(:,1));
+summer_data.discrep = discrep_col(:,1)-mean(discrep_col(:,1));
+summer_data.rapid = rapid_col(:,1)-mean(rapid_col(:,1));
+summer_data.elision = elision_col(:,1)-mean(elision_col(:,1));
 
 %% LME analysis
 % WJ_BRS
 fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*brs_init + (1|record_id) + (int_sess_cen - 1|record_id)')
 fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*iq + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*iq_vocab + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*iq_mr + (1|record_id) + (int_sess_cen - 1|record_id)')
 fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*discrep + (1|record_id) + (int_sess_cen - 1|record_id)')
+
 % WJ_RF
 fitlme(summer_data, 'wj_rf ~ 1 + int_sess_cen + int_sess_cen*brs_init + (1|record_id) + (int_sess_cen - 1|record_id)')
 fitlme(summer_data, 'wj_rf ~ 1 + int_sess_cen + int_sess_cen*iq + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'wj_rf ~ 1 + int_sess_cen + int_sess_cen*iq_vocab + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'wj_rf ~ 1 + int_sess_cen + int_sess_cen*iq_mr + (1|record_id) + (int_sess_cen - 1|record_id)')
 fitlme(summer_data, 'wj_rf ~ 1 + int_sess_cen + int_sess_cen*discrep + (1|record_id) + (int_sess_cen - 1|record_id)')
 % TWRE_INDEX
 fitlme(summer_data, 'twre_index ~ 1 + int_sess_cen + int_sess_cen*brs_init + (1|record_id) + (int_sess_cen - 1|record_id)')
 fitlme(summer_data, 'twre_index ~ 1 + int_sess_cen + int_sess_cen*iq + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'twre_index~ 1 + int_sess_cen + int_sess_cen*iq_vocab + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'twre_index ~ 1 + int_sess_cen + int_sess_cen*iq_mr + (1|record_id) + (int_sess_cen - 1|record_id)')
 fitlme(summer_data, 'twre_index ~ 1 + int_sess_cen + int_sess_cen*discrep + (1|record_id) + (int_sess_cen - 1|record_id)')
 
+
+fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*brs_init + int_sess_cen*iq + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'wj_rf ~ 1 + int_sess_cen + int_sess_cen*brs_init + int_sess_cen*iq + (1|record_id) + (int_sess_cen - 1|record_id)')
+fitlme(summer_data, 'twre_index ~ 1 + int_sess_cen + int_sess_cen*brs_init + int_sess_cen*iq + (1|record_id) + (int_sess_cen - 1|record_id)')
+
+fitlme(summer_data, 'wj_brs ~ 1 + int_sess_cen + int_sess_cen*brs_init + int_sess_cen*iq_mr + (1|record_id) + (int_sess_cen - 1|record_id)')
 
 
 

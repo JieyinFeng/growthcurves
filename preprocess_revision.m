@@ -31,7 +31,7 @@ all_sess_names = [1 2 3 4 11 12 13 14];
 case_cntrl_sess_names = [1 2 3 4 11 12 13 14];
 %% consolidate data for case-control analysis
 % condense data table to necessary information
-case_cntrl_group = sub_map('all'); 
+case_cntrl_group = horzcat(int_group,cntrl_group); % Concatenate conrol and intervention subs
 case_cntrl_indx = ismember(lmb_data.record_id,case_cntrl_group);
 case_cntrl_data = lmb_data(case_cntrl_indx,:);
 % revise case cntrl data
