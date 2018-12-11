@@ -6,7 +6,7 @@
 % Patrick Donnelly, University of Washington, November 6th, 2017
 
 % run preprocess.m
-preprocess;
+preprocess_revision;
 
 % create data table with BRS composite
 score = int_data.wj_brs;

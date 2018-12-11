@@ -15,7 +15,7 @@
 lmb_data = readtable('data/lmb_data.xlsx');
 sub_map = mapparse('data/lmb_config.xlsx'); %mapparse initialized container map object
 %% condense data table to necessary information
-int_group = sub_map('summer'); % intervention group
+int_group = sub_map('int_include'); % intervention group
 cntrl_group = sub_map('cntrl_dx'); % dx control group
 indx = ismember(lmb_data.record_id, int_group);
 cntrl_indx = ismember(lmb_data.record_id,cntrl_group);
@@ -27,11 +27,32 @@ all_data = lmb_data(all_indx,:);
 % This would include HB275(275) & 197_BK(72)
 cntrl_sess_names = [0 11 12 13 14]; % based on study name variable coding in redcap
 int_sess_names = [0 1 2 3 4];
-all_sess_names = [0 1 2 3 4 11 12 13 14];
+all_sess_names = [1 2 3 4 11 12 13 14];
+case_cntrl_sess_names = [1 2 3 4 11 12 13 14];
+%% consolidate data for case-control analysis
+% condense data table to necessary information
+case_cntrl_group = horzcat(int_group,cntrl_group); % Concatenate conrol and intervention subs
+case_cntrl_indx = ismember(lmb_data.record_id,case_cntrl_group);
+case_cntrl_data = lmb_data(case_cntrl_indx,:);
+% revise case cntrl data
+case_cntrl_sess_name_indx = ismember(case_cntrl_data.study_name, case_cntrl_sess_names);
+case_cntrl_data = case_cntrl_data(case_cntrl_sess_name_indx, :);
+% append categorical variable to combined data
+[m, n] = size(case_cntrl_data);
+case_cntrl_data.group = zeros(m, 1);
+for row = 1:m
+   if ismember(case_cntrl_data.study_name(row), [1 2 3 4])
+       case_cntrl_data.group(row) = 1;
+   elseif ismember(case_cntrl_data.study_name(row), [11 12 13 14])
+       case_cntrl_data.group(row) = 0;
+   end
+end
+
 % revise cntrl data
 % cntrl_data{37, 3} = 13; % this subject is excluded from intervention group with ongoing participation
 cntrl_sess_name_indx = ismember(cntrl_data.study_name, cntrl_sess_names);
 cntrl_data = cntrl_data(cntrl_sess_name_indx, :);
+
 % revise int data
 % HA072(197_BK) for int data should have different baseline session:
 % find 197_BK
@@ -52,10 +73,15 @@ int_data.int_sess_cen = center(int_data, 'int_session', 'record_id');
 int_data.int_hours_cen = center(int_data, 'int_hours', 'record_id');
 cntrl_data.int_sess_cen = center(cntrl_data, 'int_session', 'record_id');
 cntrl_data.cntrl_hours_cen = center(cntrl_data, 'int_hours', 'record_id');
+cntrl_data.cntrl_days_cen = center(cntrl_data, 'int_time', 'record_id');
+% center the time variables and append to table
+case_cntrl_data.int_sess_cen = center(case_cntrl_data, 'int_session', 'record_id');
+case_cntrl_data.int_hours_cen = center(case_cntrl_data, 'int_hours', 'record_id');
+case_cntrl_data.int_days_cen = center(case_cntrl_data, 'int_time', 'record_id');
 % name tests of interest and their associated names for future plotting 
 tests = {'wj_lwid_ss','wj_wa_ss','wj_brs','wj_or_ss','wj_srf_ss',...
     'wj_rf','twre_swe_ss','twre_pde_ss','twre_index','wj_mff_ss',...
-    'wj_calc_ss','wj_mcs'};
+    'wj_calc_ss','wj_mcs'}; 
 names = {'WJ LWID', 'WJ WA', 'WJ BRS', 'WJ OR', 'WJ SRF', 'WJ RF', 'TOWRE SWE', ...
     'TOWRE PDE', 'TWRE INDEX', 'WJ MFF', 'WJ CALC', 'WJ MCS'};
 location = find(ismember(lmb_data.Properties.VariableNames, tests));
