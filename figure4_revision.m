@@ -98,48 +98,48 @@ rti_twre = indiv_slopes_twre(:,1);
 figure; hold;
 subplot(3,3,1);
 scatter(brs_init, rti_brs, 15, 'MarkerFaceColor', ifsig(brs_init, rti_brs)); lsline; 
-grid('on'); axis('tight'); 
-xlabel('Initial Reading Score (BRS)'); ylabel('Growth Rate (BRS)');
+grid('on'); xlim([50 120]); ylim([-2 12]); xticks([50 60 70 80 90 100 110 120]);
+ylabel('Growth Rate (BRS)');
 
 subplot(3,3,2);
 scatter(brs_init, rti_rf, 15, 'MarkerFaceColor', ifsig(brs_init, rti_rf)); lsline; 
-grid('on'); axis('tight'); 
+grid('on'); xlim([50 120]); ylim([-2 8]); xticks([50 60 70 80 90 100 110 120]);
 xlabel('Initial Reading Score (BRS)'); ylabel('Growth Rate (RF)');
 
 subplot(3,3,3);
 scatter(brs_init, rti_twre, 15, 'MarkerFaceColor', ifsig(brs_init, rti_twre)); lsline; 
-grid('on'); axis('tight');
-xlabel('Initial Reading Score (BRS)'); ylabel('Growth Rate (TOWRE)');
+grid('on'); xlim([50 120]); ylim([-2 8]); xticks([50 60 70 80 90 100 110 120]);
+ylabel('Growth Rate (TOWRE)');
 
 subplot(3,3,4);
 scatter(iq, rti_brs, 15, 'MarkerFaceColor', ifsig(iq, rti_brs)); lsline; 
-grid('on'); axis('tight'); 
-xlabel('IQ (WASI FS2)'); ylabel('Growth Rate (BRS)');
+grid('on'); xlim([70 130]); ylim([-2 12]); xticks([70 80 90 100 110 120 130]); 
+ylabel('Growth Rate (BRS)');
 
 subplot(3,3,5);
 scatter(iq, rti_rf, 15, 'MarkerFaceColor', ifsig(iq, rti_rf)); lsline; 
-grid('on'); axis('tight'); 
+grid('on'); xlim([70 130]); ylim([-2 8]); xticks([70 80 90 100 110 120 130]);
 xlabel('IQ (WASI FS2)'); ylabel('Growth Rate (RF)');
 
 subplot(3,3,6);
 scatter(iq, rti_twre, 15, 'MarkerFaceColor', ifsig(iq, rti_twre)); lsline; 
-grid('on'); axis('tight'); 
-xlabel('IQ (WASI FS2)'); ylabel('Growth Rate (TOWRE)');
+grid('on'); xlim([70 130]); ylim([-2 8]); xticks([70 80 90 100 110 120 130]);
+ylabel('Growth Rate (TOWRE)');
 
 subplot(3,3,7);
 scatter(discrep, rti_brs, 15, 'MarkerFaceColor', ifsig(discrep, rti_brs)); lsline; 
-grid('on'); axis('tight'); 
-xlabel('IQ - BRS discrepancy'); ylabel('Growth Rate (BRS)');
+grid('on'); xlim([-10 50]); ylim([-2 12]); xticks([-10 0 10 20 30 40 50]);
+ylabel('Growth Rate (BRS)');
 
 subplot(3,3,8);
 scatter(discrep, rti_rf, 15, 'MarkerFaceColor', ifsig(discrep, rti_rf)); lsline; 
-grid('on'); axis('tight'); 
+grid('on'); xlim([-10 50]); ylim([-2 8]); xticks([-10 0 10 20 30 40 50]); 
 xlabel('IQ - BRS discrepancy'); ylabel('Growth Rate (RF)');
 
 subplot(3,3,9);
 scatter(discrep, rti_twre, 15, 'MarkerFaceColor', ifsig(discrep, rti_twre)); lsline; 
-grid('on'); axis('tight'); 
-xlabel('IQ - BRS discrepancy'); ylabel('Growth Rate (TOWRE)');
+grid('on'); xlim([-10 50]); ylim([-2 8]); xticks([-10 0 10 20 30 40 50]);
+ylabel('Growth Rate (TOWRE)');
 
 
 

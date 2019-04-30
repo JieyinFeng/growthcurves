@@ -26,7 +26,7 @@ all_data = lmb_data(all_indx,:);
 %% Select sessions of interest
 % This would include HB275(275) & 197_BK(72)
 cntrl_sess_names = [0 11 12 13 14]; % based on study name variable coding in redcap
-int_sess_names = [0 1 2 3 4 5];
+int_sess_names = [0 1 2 3 4 5 6];
 all_sess_names = [0 1 2 3 4 11 12 13 14];
 % revise cntrl data
 cntrl_data{37, 3} = 13; % this subject is excluded from intervention group with ongoing participation
@@ -66,6 +66,9 @@ stats = struct;
 for test = 1:length(tests)
     loc = location(test);
     int_data.score = int_data{:,loc};
+    if ~isnumeric(int_data.score)
+        int_data.score = str2double(int_data.score);
+    end
     stats(test).name = names(test);
     % linear model fit
     stats(test).lme = fitlme(int_data, 'score ~ 1 + int_hours_cen + (1|record_id) + (int_hours_cen - 1|record_id)');

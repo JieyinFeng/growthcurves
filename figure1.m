@@ -4,9 +4,10 @@
 % Patrick Donnelly; University of Washington; August 8th, 2017
 %% Figure 1a
 % Specify sessions of interest
-sessions = [0 1 2 3 4];
+sessions = [0 1 2 3 4 5];
 % Make the time variable categorical
 int_data.int_session_cat = categorical(int_data.int_session);
+int_data.wj_rf = str2double(int_data.wj_rf);
 % Gather stats
 composites = {'WJ BRS', 'WJ RF', 'TWRE INDEX'};
 lme_brs = fitlme(int_data, 'wj_brs ~ 1 + int_session_cat + (1|record_id) + (int_session_cat - 1|record_id)');

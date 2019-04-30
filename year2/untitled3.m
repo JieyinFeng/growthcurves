@@ -1,6 +1,6 @@
 %% Figure 1a
 % Specify sessions of interest
-sessions = [0 1 2 3 4 5];
+sessions = [0 1 2 3 4 5 6];
 % Make the time variable categorical
 int_data.int_session_cat = categorical(int_data.int_session);
 % Gather stats

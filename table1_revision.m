@@ -1,7 +1,7 @@
 %% Create Data Table 1 Figure
 % Patrick M. Donnelly
 % University of Washington
-% November 20th, 2017
+% July 19th, 2017
 
 
 sifted_data = horzcat(int_data.int_session, int_data.wj_lwid_ss, int_data.wj_wa_ss, ...
@@ -45,23 +45,25 @@ table1 = table(tests', mean0, std0, ...
                 mean1, std1, mean2, std2, ...
                 mean3, std3, mean4, std4);
             
-filename = 'C:\Users\Patrick\Desktop\table1_dhy.xlsx';
+filename = 'C:\Users\Patrick\Desktop\supp_table1.xlsx';
 writetable(table1, filename);
 
 %% Gather LME stats
 % run lmeLong with different parameters
 % long_var = hours
-linear_slope = []; pval = []; se = []; aic = []; bic = []; loglik = []; 
+linear_slope = []; pval = []; se = []; lower = []; upper = []; aic = []; bic = []; loglik = []; 
 for ii = 1:length(tests)
     linear_slope = vertcat(linear_slope, stats(ii).lme.Coefficients.Estimate(2));
     pval = vertcat(pval, stats(ii).lme.Coefficients.pValue(2));   
     se = vertcat(se, stats(ii).lme.Coefficients.SE(2));
+    lower = vertcat(lower, stats(ii).lme.Coefficients.Lower(2));
+    upper = vertcat(upper, stats(ii).lme.Coefficients.Upper(2));
     aic = vertcat(aic, stats(ii).lme.ModelCriterion.AIC);
     bic = vertcat(bic, stats(ii).lme.ModelCriterion.BIC);
     loglik = vertcat(loglik, stats(ii).lme.LogLikelihood);
 end
 
-table2 = table(linear_slope, se, pval, aic, bic, loglik);
+table2 = table(linear_slope, se, pval, lower, upper, aic, bic, loglik);
 
-filename = 'C:\Users\Patrick\Desktop\table2_dhy_linear.xlsx';
+filename = 'C:\Users\Patrick\Desktop\supp_tbl_lme.xlsx';
 writetable(table2, filename);

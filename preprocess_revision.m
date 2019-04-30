@@ -86,19 +86,26 @@ names = {'WJ LWID', 'WJ WA', 'WJ BRS', 'WJ OR', 'WJ SRF', 'WJ RF', 'TOWRE SWE', 
     'TOWRE PDE', 'TWRE INDEX', 'WJ MFF', 'WJ CALC', 'WJ MCS'};
 location = find(ismember(lmb_data.Properties.VariableNames, tests));
 % initialize data structure
-stats = struct;
+stats = struct; cntrl_stats = struct; inter_stats = struct;
 % loop over tests and create data structure with linear, quadratic, and
 % cubic models; using a centered time variable (intervention hours)
 for test = 1:length(tests)
     loc = location(test);
     int_data.score = int_data{:,loc};
+    cntrl_data.score = cntrl_data{:,loc};
+    case_cntrl_data.score = case_cntrl_data{:,loc};
     stats(test).name = names(test);
+    cntrl_stats(test).name = names(test);
+    inter_stats(test).name = names(test);
     % linear model fit
     stats(test).lme = fitlme(int_data, 'score ~ 1 + int_hours_cen + (1|record_id) + (int_hours_cen - 1|record_id)');
+    %cntrl_stats(test).lme = fitlme(cntrl_data, 'score ~ 1 + cntrl_hours_cen + (1|record_id) + (cntrl_hours_cen - 1|record_id)');
     % quadratic model fit
     stats(test).lme_quad = fitlme(int_data, 'score ~ 1 + int_hours_cen^2 + (1|record_id) + (int_hours_cen - 1|record_id)');
     % cubic model fit
     stats(test).lme_cube = fitlme(int_data, 'score ~ 1 + int_hours_cen^2 + int_hours_cen^3 + (1|record_id) + (int_hours_cen - 1|record_id)');
+    % interaction model fit for case_cntrl data
+    inter_stats(test).lme_int = fitlme(case_cntrl_data, 'score ~ 1 + int_days_cen + int_days_cen*group + (1|record_id) + (int_days_cen - 1|record_id)');
 end
 
 
